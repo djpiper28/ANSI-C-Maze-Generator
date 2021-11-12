@@ -1,0 +1,38 @@
+
+static void swap(vect2* a, vect2* b)
+{
+    vect2 t = *a;
+    *a = *b;
+    *b = t;
+}
+
+static int partition(vect2 *arr, int low, int high)
+{
+    int pivot = (rand() % (high - low)) + low;
+    int i = (low - 1);
+    for (int j = low; j <= high- 1; j++)
+    {
+        if (arr[j].weight <= arr[pivot].weight)
+        {
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[pivot]);
+    return (i + 1);
+}
+
+static void quickSort(vect2 *arr, int low, int high)
+{
+    if (low < high)
+    {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+void sortArcs(maze* maze)
+{
+    quickSort(maze->arcs, 0, maze->arc_pointer);
+}
