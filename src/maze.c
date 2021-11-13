@@ -1,7 +1,8 @@
 #include "maze.h"
 #include <stdio.h>
-#include <sys/time.h>
+#include <stdlib.h>
 #include <unistd.h>
+#include <sys/time.h>
 
 #define NO_PARENT -1
 
@@ -41,9 +42,57 @@ int initMaze(maze* maze)
     return 1;
 }
 
-int unionFind(maze* maze, vect2 new)
+static int find(maze* maze, vect2 ptr)
 {
-    return 1;
+    int atRoot = 0,
+        parentNode;
+    while (!atRoot)
+    {
+        parentNode = maze->disjointSet[ptr.y][ptr.x];
+        atRoot = parentNode == NO_PARENT;
+        
+        if (!atRoot)
+        {
+            size_t x = parentNode % maze->width,
+            y = parentNode / maze->width;
+            struct vect2 newPtr = {x, y};
+            ptr = newPtr;
+        }
+    }
+    
+    return parentNode;
+}
+
+int unionFind(maze* maze, vect2 newL, vect2 newR)
+{
+    int l = find(maze, newL),
+        r = find(maze, newR);
+    if (l == r)
+    {
+        return 0;
+    } else {
+        // Union the sets l and r
+        // Sets all members of l to point to the parent of r
+        vect2 ptr = newL;
+        int atRoot = 0,
+            parentNode;
+        while (!atRoot)
+        {
+            parentNode = maze->disjointSet[ptr.y][ptr.x];
+            maze->disjointSet[ptr.y][ptr.x] = l;
+            atRoot = parentNode == NO_PARENT;
+            
+            if (!atRoot)
+            {
+                size_t x = parentNode % maze->width,
+                y = parentNode / maze->width;
+                struct vect2 newPtr = {x, y};
+                ptr = newPtr;
+            }
+        }
+        
+        return 1;
+    }    
 }
 
 void kruskals(maze* maze)
@@ -55,9 +104,11 @@ void kruskals(maze* maze)
         int added = 0;
         while (!added)
         {
-            long x = abse(random()) % maze->width,
+            long x = abs(random()) % maze->width,
                  y = abs(random()) % maze->height;
             vect2 node = {x, y};
+            
+            added = unionFind(maze, node);
         }
     }
 }

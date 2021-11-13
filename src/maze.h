@@ -8,11 +8,12 @@ typedef struct vect2 {
 typedef struct maze {
     long width, height;
     size_t arc_pointer;
-    vect2 **disjointSet;
+    int **disjointSet;
+    int **image;
 } maze;
 
 int initMaze(maze *);
 void generateArcs(maze *);
 void kruskals(maze *);
-int unionFind(maze *, vect2 /*new arc*/);
+int unionFind(maze *, vect2 /*new nodel*/, vect2 /*new noder*/);
 void freeMaze(maze *);
