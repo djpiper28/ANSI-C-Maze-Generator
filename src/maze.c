@@ -69,7 +69,7 @@ static int find(maze *maze, vect2 ptrIn) {
          parentNode;
     while (!atRoot) {
         parentNode = maze->disjointSet[ptr.y][ptr.x];
-        atRoot = parentNode == NO_PARENT;
+        atRoot = parentNode == NO_PARENT || parentNode == last;
         
         if (!atRoot) {
             long x = parentNode % maze->width, 
@@ -78,8 +78,6 @@ static int find(maze *maze, vect2 ptrIn) {
             ptr = newPtr;
             last = parentNode;
         }
-        
-        atRoot |= parentNode == last;
     }
     
     atRoot = 0;
@@ -87,7 +85,7 @@ static int find(maze *maze, vect2 ptrIn) {
     long x, y;
     while (!atRoot) {
         parentNode = maze->disjointSet[ptr.y][ptr.x];
-        atRoot = parentNode == NO_PARENT;
+        atRoot = parentNode == NO_PARENT || parentNode == last;
         
         x = parentNode % maze->width;
         y = parentNode / maze->width;
@@ -97,8 +95,6 @@ static int find(maze *maze, vect2 ptrIn) {
             struct vect2 newPtr = {x, y};
             ptr = newPtr;
         }
-        
-        atRoot |= parentNode == last;
     }
     
     return last;
@@ -108,6 +104,7 @@ static int unionFind(maze *maze, vect2 newL, vect2 newR) {
     int l = find(maze, newL),
         r = find(maze, newR);
     if (l != r) {
+        printf("%d %d\n", l, r);
         long ry = r / maze->width,
              rx = r % maze->width;
         maze->disjointSet[ry][rx] = r;
@@ -181,17 +178,6 @@ void kruskals(maze *maze) {
                 }
             }
         }
-    }
-    
-    for (size_t y = 0; y < maze->height * 2 + 1; y++) {
-        for (size_t x = 0; x < maze->width * 2 + 1; x++) {
-            char c = '#';
-            if (maze->image[y][x] == WHITE) {
-                c = ' ';
-            }
-            printf("%c%c", c, c);
-        }
-        printf("\n");
     }
 }
 

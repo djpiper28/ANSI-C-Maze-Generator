@@ -51,9 +51,21 @@ int main(int argc, char **argv) {
     gettimeofday(&start, NULL);
     printf("Solving... \n");
     
-    kruskals(&mz);
+    kruskals(&mz);    
     
     gettimeofday(&end, NULL);
+    
+    for (size_t y = 0; y < mz.height * 2 + 1; y++) {
+        for (size_t x = 0; x < mz.width * 2 + 1; x++) {
+            char c = '#';
+            if (mz.image[y][x] == 0xFFFFFF) {
+                c = ' ';
+            }
+            printf("%c%c", c, c);
+        }
+        printf("\n");
+    }
+    
     printf("%zu ms\n", start.tv_sec - end.tv_sec);
         
     freeMaze(&mz);
