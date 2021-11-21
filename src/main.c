@@ -6,13 +6,13 @@
 #include "images.h"
 
 static void printHelp() {
-    printf("Mazegenerator usage: ./mazegen [WIDTH] [HEIGHT]\n");
+    printf("Mazegenerator usage: ./mazegen [WIDTH] [HEIGHT] [OUTPUT FILE NAME]\n");
     printf("Exmaple: ./mazegen 50 50 \n\n");
     printf("Made by Danny Piper, git repo: https://github.com/djpiper28/ANSI-C-Maze-Generator.git\n");
 }
 
 int main(int argc, char **argv) {
-    if (argc != 3) {
+    if (argc != 4) {
         printHelp();
         return 1;
     }
@@ -28,6 +28,7 @@ int main(int argc, char **argv) {
     
     int width = atoi(argv[1]);
     int height = atoi(argv[2]);
+    const char *name = argv[3];
     
     if (width <= 0 || height <= 0) {
         printHelp();
@@ -53,21 +54,15 @@ int main(int argc, char **argv) {
     
     kruskals(&mz);    
     
-    gettimeofday(&end, NULL);
-    
-    for (size_t y = 0; y < mz.height * 2 + 1; y++) {
-        for (size_t x = 0; x < mz.width * 2 + 1; x++) {
-            char c = '#';
-            if (mz.image[y][x] == 0xFFFFFF) {
-                c = ' ';
-            }
-            printf("%c%c", c, c);
-        }
-        printf("\n");
-    }
-    
+    gettimeofday(&end, NULL);    
     printf("%zu ms\n", start.tv_sec - end.tv_sec);
-        
-    freeMaze(&mz);
     
+    gettimeofday(&start, NULL);
+    printf("Saving maze... ");
+    
+    mazeToImage(&mz, name);
+    
+    gettimeofday(&end, NULL);
+    printf("%zu ms\n", start.tv_sec - end.tv_sec);
+    freeMaze(&mz);
 }

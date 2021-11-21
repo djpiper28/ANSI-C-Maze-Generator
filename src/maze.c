@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 #define NO_PARENT -1
-#define WHITE 0xFFFFFF
+#define WHITE 0xFFFFFFFF
 
 int initMaze(maze *maze, int width, int height) {    
     struct timeval seedTime;
@@ -51,8 +51,8 @@ int initMaze(maze *maze, int width, int height) {
             return 0;
         }
         
-        for (size_t x = 0; x < maze->width; x++) {
-            maze->image[y][x] = 0x000000;
+        for (size_t x = 0; x < maze->width * 2 + 1; x++) {
+            maze->image[y][x] = 0xFF000000;
         }
     }
     
@@ -104,7 +104,6 @@ static int unionFind(maze *maze, vect2 newL, vect2 newR) {
     int l = find(maze, newL),
         r = find(maze, newR);
     if (l != r) {
-        printf("%d %d\n", l, r);
         long ry = r / maze->width,
              rx = r % maze->width;
         maze->disjointSet[ry][rx] = r;
