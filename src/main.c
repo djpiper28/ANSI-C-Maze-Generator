@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
     initMaze(&mz, width, height);
     
     gettimeofday(&end, NULL);
-    printf("%zu ms\n", end.tv_usec - start.tv_usec);
+    printf("%ld ms\n", end.tv_usec - start.tv_usec);
     
     
     gettimeofday(&start, NULL);
@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
     kruskals(&mz);
     
     gettimeofday(&end, NULL);
-    printf("%zu s\n", end.tv_sec - start.tv_sec);
+    printf("%ld s\n", end.tv_sec - start.tv_sec);
     
     gettimeofday(&start, NULL);
     printf("Saving maze... ");
@@ -63,6 +63,6 @@ int main(int argc, char **argv) {
     mazeToImage(&mz, name);
     
     gettimeofday(&end, NULL);
-    printf("%zu ms\n", end.tv_usec - start.tv_usec);
+    printf("%ld ms\n", end.tv_usec - start.tv_usec);
     freeMaze(&mz);
 }
