@@ -90,11 +90,9 @@ static int find(maze *maze, vect2 ptrIn) {
         x = parentNode % maze->width;
         y = parentNode / maze->width;
         maze->disjointSet[ptr.y][ptr.x] = last;
-             
-        if (!atRoot) {
-            struct vect2 newPtr = {x, y};
-            ptr = newPtr;
-        }
+        
+        struct vect2 newPtr = {x, y};
+        ptr = newPtr;
     }
     
     return last;
