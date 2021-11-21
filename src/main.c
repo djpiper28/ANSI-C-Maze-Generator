@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
     initMaze(&mz, width, height);
     
     gettimeofday(&end, NULL);
-    printf("%ld ms\n", end.tv_usec - start.tv_usec);
+    printf("%ld s\n", end.tv_sec - start.tv_sec);
     
     
     gettimeofday(&start, NULL);
@@ -63,6 +63,6 @@ int main(int argc, char **argv) {
     mazeToImage(&mz, name);
     
     gettimeofday(&end, NULL);
-    printf("%ld ms\n", end.tv_usec - start.tv_usec);
+    printf("%ld s\n", end.tv_sec - start.tv_sec);
     freeMaze(&mz);
 }
