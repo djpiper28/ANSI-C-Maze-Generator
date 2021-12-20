@@ -66,7 +66,11 @@ void mazeToImage(maze *maze, char *name) {
     }
     
     // End write
-    png_write_end(png_ptr, NULL);
-    
+    png_write_end(png_ptr, NULL);    
     png_write_info(png_ptr, info_ptr);
+
+    png_destroy_write_struct(&png_ptr, (png_infopp)NULL);
+    png_free_data(png_ptr, info_ptr, PNG_FREE_ALL, -1);
+    free(row);
+    fclose(fp);
 }

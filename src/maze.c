@@ -189,11 +189,11 @@ void freeMaze(maze *maze) {
     }
     
     if (maze->image) {
-        for (size_t y = 0; y < maze->height; y++) {
+        for (size_t y = 0; y < maze->height * 2 + 1; y++) {
             if (maze->image[y]) {
                 free(maze->image[y]);
             }
         }
         free(maze->image);
-    }
+ 		}
 }
